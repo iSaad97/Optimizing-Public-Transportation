@@ -48,7 +48,6 @@ class Producer:
             self.create_topic()
             Producer.existing_topics.add(self.topic_name)
 
-        # TODO: Configure the AvroProducer
 
         schema_registry = CachedSchemaRegistryClient({
             'url':SCHEMA_REGISTRY_URL
@@ -63,7 +62,6 @@ class Producer:
         """Creates the producer topic if it does not already exist"""
         #
 
-        # TODO: Write code that creates the topic for this producer if it does not already exist on
         # the Kafka Broker.
         client = AdminClient({'bootstrap.servers':BROKER_URL})
         topic_metadata = client.list_topics()
