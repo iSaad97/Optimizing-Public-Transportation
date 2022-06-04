@@ -5,11 +5,16 @@ import random
 
 import pandas as pd
 
-from models.producer import Producer
+from producer import Producer
 
 
 logger = logging.getLogger(__name__)
-
+logger.setLevel(logging.DEBUG)
+logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+rootLogger = logging.getLogger()
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(logFormatter)
+rootLogger.addHandler(consoleHandler)
 
 class TurnstileHardware:
     curve_df = None

@@ -4,12 +4,17 @@ from pathlib import Path
 
 from confluent_kafka import avro
 
-from models.producer import Producer
-from models.turnstile_hardware import TurnstileHardware
+from producer import Producer
+from turnstile_hardware import TurnstileHardware
 
 
 logger = logging.getLogger(__name__)
-
+logger.setLevel(logging.DEBUG)
+logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+rootLogger = logging.getLogger()
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(logFormatter)
+rootLogger.addHandler(consoleHandler)
 
 class Turnstile(Producer):
     key_schema = avro.load(f"{Path(__file__).parents[0]}/schemas/turnstile_key.json")
@@ -54,4 +59,3 @@ class Turnstile(Producer):
                         }
                 )
         logger.info("arrival turnstile kafka integration completed.")
-

@@ -14,7 +14,7 @@ consoleHandler.setFormatter(logFormatter)
 rootLogger.addHandler(consoleHandler)
 
 KAFKA_CONNECT_URL = "http://localhost:8083/connectors"
-CONNECTOR_NAME = "stations"
+CONNECTOR_NAME = "stationss"
 
 
 def configure_connector():
