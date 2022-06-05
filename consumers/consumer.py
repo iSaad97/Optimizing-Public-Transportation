@@ -91,9 +91,10 @@ class KafkaConsumer:
             logger.info("no message received by consumer")
             return 0
         elif message.error() is not None:
-            logger.warn(f"error from consumer {message.error()}")
+            logger.warning(f"error from consumer {message.error()}")
         else:
-            print.info(f"consumed message {message.key()}: {message.value()}")
+            self.message_handler(message)
+            logger.info(f"consumed message {message.key()}: {message.value()}")
             return 1
         logger.info("_consume is incomplete - skipping")
         return 0
