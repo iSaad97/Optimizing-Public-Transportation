@@ -8,7 +8,12 @@ import topic_check
 
 
 logger = logging.getLogger(__name__)
-
+logger.setLevel(logging.DEBUG)
+logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+rootLogger = logging.getLogger()
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(logFormatter)
+rootLogger.addHandler(consoleHandler)
 
 KSQL_URL = "http://localhost:8088"
 
@@ -23,14 +28,18 @@ KSQL_URL = "http://localhost:8088"
 
 KSQL_STATEMENT = """
 CREATE TABLE turnstile (
-    ???
+    station_id int ,
+    station_name string,
+    line string
 ) WITH (
-    ???
+    kafka_topic='com.cta.stations.arrivals.turnstile',
+    value_format = 'avro',
+    key = 'station_id'
 );
 
 CREATE TABLE turnstile_summary
-WITH (???) AS
-    ???
+WITH (value_format = 'json') AS
+    select station_id,count(station_id) as c from turnstile group by station_id;
 """
 
 
@@ -53,6 +62,7 @@ def execute_statement():
     )
 
     # Ensure that a 2XX status code was returned
+    print(resp.text)
     resp.raise_for_status()
 
 
